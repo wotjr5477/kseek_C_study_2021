@@ -1,7 +1,7 @@
 #include <stdio.h>
 
-int main(int argc, char **argv) {       
-	for(int j=1; j<=argc; j++) {
+int main(int argc, char *argv[]) {       
+	for(int j=1; j<argc; j++) {
 		int dan = atoi(argv[j]);
 		printf("========== %d 단 ==========\n", dan);
 		
