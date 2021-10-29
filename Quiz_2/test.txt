@@ -1,0 +1,7 @@
+2021 10 29 Fri
+Quiz 2
+File read and print by line
+
+Hello
+Linux
+C Programing
