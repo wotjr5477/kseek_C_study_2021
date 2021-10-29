@@ -1,3 +1,6 @@
+211029 FRI
+# intro
+
 # Quiz 2 : 파일 읽어서 한 줄씩 출력하기
 	파일을 읽은 후, 한줄씩 출력함.
 	> open/read와 fopen/fread 사용
