@@ -12,7 +12,6 @@ int main(void) {
 	while(1) {
 		int i = 0, j;
 		
-		
 		readline(0, buff, sizeof(buff));
 		printf("\nreadline...\n>> %s\n",buff); 
 		
