@@ -593,7 +593,7 @@ sprintf : 데이터를 서식화하여 메모리 영역으로 출력함
 
 <파일 입출력 함수>
 
-fopen : path파일을 mode형태로 열고 파일포인터를 반환, 오류면 NULL반환
+fopen(path, mode) : path파일을 mode형태로 열고 파일포인터를 반환, 오류면 NULL반환
 
 fclose : 사용이 끝난 파일을 닫아주는 함수, stream은 fopen이 반환한 파일포인터, 오류면 EOF반환
 
@@ -661,7 +661,7 @@ modf : double형 데이터를 정수부와 소수부로 나눔 - <math.h>
 
 rand : 0과 RAND_MAX사이의 난수를 생성
 
-srand : rand를 초기화해 seed(초기값)에 따라 난수 달라짐
+srand : rand를 초기화해 seed(초기값)에 따라 난수 달라짐, rand의 seed값 정의
 
 (실행할 때 마다 다른 난수가 발생하게 하려면 seed값이 바뀌면 되므로 time함수를 둠)
 
