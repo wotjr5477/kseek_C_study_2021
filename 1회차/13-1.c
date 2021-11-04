@@ -18,7 +18,7 @@ int main(void)
 	
 	// table에서 "Programing"을 찾는데 없으면 테이블 뒤에 추가하고 이에 대한 포인터 반환
 	// 테이블에 데이터가 하나 추가되므로 datanum이 1증가
-	ptr = (char*)lsearch("Programming", table, &datanum, ELEMENTSIZE, compare);
+	ptr = (char *)lsearch("Programming", table, &datanum, ELEMENTSIZE, compare);
 	printf("%s\n", ptr);
 }	
 // a와 b를 비교해 같으면 0을 반환
