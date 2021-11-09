@@ -1,6 +1,6 @@
 211104 THU
 
-#intro
+# intro
 구조체(struct), 헤더(~.h), 파일 입출력(읽기/쓰기)
 
 # Quiz 4 : 파일을 열어서 open
