@@ -31,24 +31,26 @@ int main(int argc, char **argv) {
 		perror("open failed\n");
 		exit(1);
 	}
-	
-	for(int i = 0; i < argc; i++) {
-		buf = strtok(argv[i+1], "=");
-		if(buf == NULL) {
-			perror("Not Found");
-			exit(1);
+	else {
+		for(int i = 0; i < argc; i++) {
+			buf = strtok(argv[i+1], "=");
+			if(buf == NULL) {
+				perror("Not Found");
+				exit(1);
+			}
+			printf("%s\n", argv[i]);
+			address = atoi(buf) * sizeof(fr);
+			
+			buf = strtok(NULL, "=");
+//			buf += 2;
+			changeValue = atoi(buf);
+			
+			lseek(fd, address, SEEK_SET);
+			read(fd, &fr, sizeof(fr));
+			fr.age = changeValue;
+			lseek(fd, address, SEEK_SET);
+			write(fd, &fr, sizeof(fr));
 		}
-		address = atoi(buf) * sizeof(fr);
-		
-		buf = strtok(NULL, "=");
-//		buf += 2;
-		changeValue = atoi(buf);
-		
-		lseek(fd, address, SEEK_SET);
-		read(fd, &fr, sizeof(fr));
-		fr.age = changeValue;
-		lseek(fd, address, SEEK_SET);
-		write(fd, &fr, sizeof(fr));
 	}
 	close(fd);
 	

@@ -18,9 +18,9 @@ typedef struct profile {
 } FRIEND_T;
 */
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv) { // 파일명을 argv[1]로 받음
 	FRIEND_T fr;
-	int fd;
+	int fd, idx;
 	
 	// argc check
 	if(argc < 2) {
@@ -39,9 +39,10 @@ int main(int argc, char **argv) {
 	for(int i = 0; i < 10; i++) {
 		// init fr
 		bzero(&fr, sizeof(fr));
+		idx = i + 1;
 		
 		fr.age = i + 10;
-		printf("Friend_%d's age : %d\n", i+1, fr.age);
+		printf("Friend_%d's age : %d\n", idx, fr.age);
 		
 		if((write(fd, &fr, sizeof(fr))) == -1) {
 			perror("write failed\n");

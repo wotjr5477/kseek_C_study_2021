@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include "friend.h"
 
-#define DATA  "newage1.dat"
+#define DATA  "New.dat"
 
 void print_fr(char *str);
 
@@ -56,7 +56,8 @@ void print_fr(char *str) {
 		perror("open failed\n");
 		exit(1);
 	}
-	while(read(fd, &fr, sizeof(fr)) >  0) {
+//	printf("%d\n", fd);
+	while(read(fd, &fr, sizeof(fr)) >  0) { // 그냥 받아들이자..
 		printf("[%02d] fr.age = %02d\n", i, fr.age);
 		i++;
 	}
