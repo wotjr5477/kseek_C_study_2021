@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <fcntl.h>
+#include <sys/types.h>
+#include <unistd.h>
 #include "friend.h"
 
 #define DATA "New.dat"
@@ -26,7 +28,7 @@ int main(int argc, char *argv[]) {
 		ptr1 = malloc(sizeof(argv[i]));
 		strcpy(ptr1, argv[i]);
 		
-		ptr = strchr(ptr1, "=");
+		ptr = strchr(ptr1, '=');
 		*ptr = 0;
 		number = atoi(ptr-1);
 		address = number * sizeof(fr);

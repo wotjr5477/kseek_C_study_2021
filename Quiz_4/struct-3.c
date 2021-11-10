@@ -15,7 +15,7 @@ typedef struct profile {
 } FRIEND_T;
 */
 
-#define DATA  "newage1.dat"
+#define DATA  "New.dat"
 
 void print_fr(char *str);
 
