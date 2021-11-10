@@ -19,30 +19,28 @@ int main(int argc, char *argv[]) {
 		printf("조건을 입력하세요\n");
 		exit(1);
 	}
-	
 	print_fr("BEFORE");
-	
 // change
 	if((fd = open(DATA, O_RDWR)) == -1) { // 파일을 읽고쓰기 모드로 열기
 		perror("open failed\n");
 		exit(1);
 	}	
 	for (int i=0; i < argc; i++) {
-		printf("===============\n");
-		printf("command : %s\n", argv[i+1]);
+		printf("==============================\n");
+		printf("< command : %s >\n", argv[i+1]);
 		buf = strtok(argv[i+1], "=");
 		if(buf == NULL) {
 			perror("No More Changes");
 			continue;
 		}
-		printf("+++++++++++++++\n");
+		printf("++++++++++++++++++++++++++++++\n");
 		printf("buf : %s\n", buf);
 		printf("*buf : %d\n", *buf);
 		printf("atoi(buf) : %d\n", atoi(buf));
 		printf("objective data number >> %s\n", argv[i+1]);
 		CA = atoi(buf) * sizeof(fr);
 		printf("objecitve data address >> %d\n", CA);
-		printf("---------------\n");
+		printf("------------------------------\n");
 		buf = strtok(NULL, "=");
 		printf("buf : %s\n", buf);
 		printf("*buf : %d\n", *buf);
@@ -65,7 +63,7 @@ void print_fr(char *str) {
 	int fd, i = 0;
 	FRIEND_T fr;
 	
-	printf("\n>>>>> %s <<<<<\n", str);
+	printf("\n>>>>>>> %s <<<<<<<\n", str);
 	
 	if((fd = open(DATA, O_RDONLY)) == -1) {
 		perror("open failed\n");
