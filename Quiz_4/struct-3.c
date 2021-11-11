@@ -1,3 +1,6 @@
+// failed
+// >> line 31 ~ : strcpy 사용해야 함
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -17,7 +20,7 @@ int main(int argc, char *argv[]) {
 		exit(1);
 	}
 // WRITE
-	if((fd = open(argv[1], O_WRONLY | O_CREAT , 0644)) == -1) {
+	if((fd = open(DATA, RDWR) == -1) {
 		perror("open failed\n");
 		exit(1);
 	}
@@ -27,9 +30,9 @@ int main(int argc, char *argv[]) {
 		// init fr
 		bzero(&fr, sizeof(fr));
 		fr.age = i + 10;
-		fr.gender = "M/F";
+		fr.gender = "M";
 		fr.phone = "000-0000-0000";
-		fr.email = "abc@xyz.com-";
+		fr.email = "abc@xyz.com";
 		fr.address = "City";
 		
 		printf("Friend_%d's age : %d\n", i+1, fr.age);
