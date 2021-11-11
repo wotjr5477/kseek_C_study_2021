@@ -6,7 +6,7 @@
 
 #include "friend.h"
 
-#define DATA "1109.dat"
+#define DATA "New.dat"
 
 void print_fr(char *str);
 //void ChangeValue(char ch);

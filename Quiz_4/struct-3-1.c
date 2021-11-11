@@ -15,28 +15,20 @@ int main(int argc, char **argv) {
 	int fd, CV, CA;
 	char *buf;
 	
-	if(argc < 2) {
-		printf("조건을 입력하세요\n");
-		exit(1);
-	}
-	
 	print_fr("BEFORE");
 	
-	printf("0\n");
 	if((fd = open(DATA, O_RDWR)) == -1) {
 		perror("open failed\n");
 		exit(1);
 	}
-	printf("0\n");
 	
 	for(int i = 0; i < argc-1; i++) {
 		buf = strtok(argv[i+1], "=");
 		if(buf == NULL) {
 			perror("No More Changes");
-			continue;
+			exit(1); // argc check 대체 가능
 		}
-		CA = atoi(buf) * sizeof(fr);	
-		printf("0\n");
+		CA = atoi(buf) * sizeof(fr);
 		
 		switch(buf[strlen(buf)-1]) {
 			case 'n' :
@@ -48,6 +40,7 @@ int main(int argc, char **argv) {
 
 				lseek(fd, CA, SEEK_SET);
 				write(fd, &fr, sizeof(fr));
+				continue;
 			
 			case 'a' :
 				buf = strtok(NULL, "=");
@@ -59,7 +52,8 @@ int main(int argc, char **argv) {
 
 				lseek(fd, CA, SEEK_SET);
 				write(fd, &fr, sizeof(fr));
-			
+				continue;
+				
 			case 'p' :
 				buf = strtok(NULL, "=");
 				
@@ -69,7 +63,8 @@ int main(int argc, char **argv) {
 
 				lseek(fd, CA, SEEK_SET);
 				write(fd, &fr, sizeof(fr));
-			
+				continue;
+							
 			case 'A' :
 				buf = strtok(NULL, "=");
 				
@@ -79,7 +74,8 @@ int main(int argc, char **argv) {
 
 				lseek(fd, CA, SEEK_SET);
 				write(fd, &fr, sizeof(fr));
-			
+				continue;			
+
 			case 'e' :
 				buf = strtok(NULL, "=");
 				
@@ -89,8 +85,8 @@ int main(int argc, char **argv) {
 
 				lseek(fd, CA, SEEK_SET);
 				write(fd, &fr, sizeof(fr));
+				continue;
 		}
-		printf("0\n");
 	}
 	close(fd);
 	
@@ -103,7 +99,7 @@ void print_fr(char *str) {
 	int fd, i = 0;
 	FRIEND_T fr;
 	
-	printf("\n>>>>>>> %s <<<<<<<\n", str);
+	printf(">>>>>>> %s <<<<<<<\n", str);
 	
 	if((fd = open(DATA, O_RDONLY)) == -1) {
 		perror("open failed\n");
