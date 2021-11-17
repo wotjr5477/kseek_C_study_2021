@@ -95,3 +95,101 @@ int main(void) {
 				}
 				close(clntScokfd);
 				exit(0);
+			
+			default :
+				while(1) {
+					char serverMacro[MAX] = "[Server say] ";
+					readline(0, sendBuffer, sizeof(sendBuffer));
+					strcat(sendBuffer, "\n");
+					strcat(serverMacro, sendBuffer);
+//					printf("SERVER : %s\n", serverMacro);
+
+					if(!strcmp(sendBuffer, "quit\n")) {
+						printf("Good Bye~\n");
+						close(servScokfd);
+						close(clntSockfd);
+						exit(1);
+					}
+					
+					if(send(clntSockfd, serverMacro, strlen(serverMacro), MSG_NOSIGNAL)
+						!= strlen(serverMacro)) {
+							if(errno == EPIPE) {
+								printf("Client is out\n");
+								break;
+							}
+							perror("send failed\n");
+							exit(1);
+						}
+				}
+		}
+		close(clntSockfd);
+	}
+}
+
+int readline(int fd, char *buf, int bufsize) {
+	char c;
+	int i, rc;
+	
+	bzero(buf, bufsize);
+	
+	for(i = 0;; i++) {
+		rc = read(fd, &c, 1);
+		
+		if(rc <= 0 || c == '\n')
+			break;
+		if(i < (bufsize - 1))
+			*(buf + i) = c;
+	}
+	return i;
+}
+
+int ls(char *list, int listCount) {
+	int size = MAX * 100;
+	int fd, re;
+	char ptr[size], *ptr2;
+	
+	listCount = 0;
+	system("rm list.txt");
+	bzero(list, size);
+	system("ls > list.txt");
+	if((fd = open("list.txt", O_RDONLY)) == -1) {	
+		perror("open failed\n");
+		exit(1);
+	}
+	re = read(fd, list, size);
+	if(re < sizeof(list)) {
+		bzero(list, size);
+	}
+	
+	strcpy(ptr, list);
+	
+	ptr2 = strtok(ptr, "\n");
+	while(ptr2 != NULL) {
+		ptr2 = strtok(NULL, "\n");
+		listCount++;
+	}
+	printf("Count : %d\n", listCount);
+	printf("ls : %s\n", list);
+	
+	close(fd);
+	return listCount;
+}
+
+void get(int clntSockfd, char*recvBuffer) {
+	char buf[MAX], *ptr;
+	int size, filehandle;
+	struct stat obj;
+//	printf("clntSockfd : %d\n", clntSockfd);
+
+	strcpy(buf, recvBuffer);
+	ptr = strtok(buf, " ");
+	ptr = strtok(NULL, " ");
+	printf("%s\n", ptr);
+	
+	stat(ptr, &obj);
+	filehandle = open(ptr, O_RDONLY);
+	size = obj.st_size;
+	
+	if((sendfile(clntSockfd, filehandle, NULL, size)) < 0)
+		printf("sendfile failed\n";
+}
