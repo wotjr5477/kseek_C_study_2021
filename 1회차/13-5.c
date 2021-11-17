@@ -11,7 +11,8 @@ int main(void)
 
     // 3개의 데이터를 해시 테이블에 삽입
     item.key = "Linux";
-    item.data = "Linux";g
+    item.data = "Linux";
+
     // item을 해시 테이블에서 탐색하는데, 발견하지 못하면 item을 삽입하고 이에대한 포인터를 반환
     hsearch(item, ENTER);
     item.key = "C";
