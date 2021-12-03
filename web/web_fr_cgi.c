@@ -17,11 +17,11 @@
 #define HEAD_LIST "<html lang=\"ko\"><head><meta charset=\"utf-8\"><title>friend list page</title></head><body><h2>친구목록 %d 페이지</h2>"
 #define HEAD_VIEW "<html lang=\"ko\"><head><meta charset=\"utf-8\"><title>friend view page</title></head><body><h2>%d 상세 페이지</h2>"
 #define HEAD_SEARCH "<html lang=\"ko\"><head><meta charset=\"utf-8\"><title>friend search page</title></head><body><h2>친구검색 페이지</h2>"
-#define SHOW_FR_LIST "<a href=\"./web_fr.cgi?view=%d\">%s</a><br>"
-#define VIEW_FR "<h2>%s 상세 정보</h2><p><li>이름 : %s</li><li>나이 : %s</li><li>주소 : %s</li><li>성별 : %s</li><li>연락처 : %s</li></p></body></html>"
-#define SEARCH_BAR "<form action=\"./web_fr.cgi\" accept-charset=\"utf-8\" method=\"get\">검색어 : <input type=\"search\" name=\"search\"><input type=\"submit\"></form><p>"
-#define SEARCH_FR_LIST "<a href=\"./web_fr.cgi?view=%d\">%s</a><br>"
-#define BUTTON_LIST "<br><button onClick=\"location.href='./web_fr.cgi?list=%d'\">이전</button><button onClick=\"location.href='./web_fr.cgi?list%d'\">다음</button>"
+#define SHOW_FR_LIST "<a href=\"./web_fr_cgi.cgi?view=%d\">%s</a><br>"
+#define VIEW_FR "<h2>%s 상세 정보</h2><p><li>이름 : %s</li><li>나이 : %d</li><li>주소 : %s</li><li>성별 : %s</li><li>연락처 : %s</li></p></body></html>"
+#define SEARCH_BAR "<form action=\"./web_fr_cgi.cgi\" accept-charset=\"utf-8\" method=\"get\">검색어 : <input type=\"search\" name=\"search\"><input type=\"submit\"></form><p>"
+#define SEARCH_FR_LIST "<a href=\"./web_fr_cgi.cgi?view=%d\">%s</a><br>"
+#define BUTTON_LIST "<br><button onClick=\"location.href='./web_fr_cgi.cgi?list=%d'\">이전</button><button onClick=\"location.href='./web_fr_cgi.cgi?list%d'\">다음</button>"
 #define NOT_FOUND_CONTENT "<h1>404 NOT FOUND</h1>\n"
 #define SERVER_ERROR_CONTENT "<h1>500 Internal Server Error</h1>\n"
 
@@ -35,9 +35,9 @@ void http_handler();
 
 int main(int argc, char *argv[])
 {
-	printf("Content-type : text/html\n\n");
+	printf("Content-type: text/html\n\n");
 	http_handler();
-	
+	//printf("<html>hello</html>");
 	return 0;
 }
 
@@ -65,7 +65,7 @@ void list_fr(int page)
 {
 	int fd;
 	
-	if((fd = open("friend2.dat", O_RDONLY, 0644)) == -1) {
+	if((fd = open("New.dat", O_RDONLY, 0644)) == -1) {
 		printf("<br>friend2.dat open failed");
 		exit(1);
 	}
@@ -76,9 +76,11 @@ void list_fr(int page)
 	
 	for(int i = 0; i < count; i++) {
 		if(read(fd, &fr, sizeof(fr)) <= 0) {
+			printf("0");
 			break;
 		} else {
-			printf(SHOW_FR_LIST, ((page - 1) * 10) + i, fr.name);
+//			printf(SHOW_FR_LIST, ((page - 1) * 10) + i, fr.name);
+			printf(SHOW_FR_LIST, ((page - 1) * 10) + i, "준석");
 		}
 	}
 	
@@ -96,7 +98,7 @@ void list_fr(int page)
 void view_fr(int index) {
 	int fd;
 	
-	if((fd = open("friend2.dat", O_RDONLY, 0644)) == -1) {
+	if((fd = open("New.dat", O_RDONLY, 0644)) == -1) {
 		perror("open failed");
 		exit(1);
 	}
@@ -119,7 +121,7 @@ void search_fr(char *word)
 	strcpy(wbuf, word);
 	decode_url(wbuf);
 	
-	if((fd = open("friend2.dat", O_RDONLY, 0644)) == -1) {
+	if((fd = open("New.dat", O_RDONLY, 0644)) == -1) {
 		perror("open failed");
 		exit(1);
 	}

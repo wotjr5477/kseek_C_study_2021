@@ -10,17 +10,17 @@
 #include <arpa/inet.h>
 #include "friend.h"
 
-#define BUFSIZE 512
+#define BUFSIZE 1024
 #define count 10
 #define HEADER_FMT "HTTP/1.1 %d %s\nContent-Length: %ld\nContent-Type: %s\n\n"
 #define SHOW_FR_LIST "<a href=\"/fr?view=%d\">%s</a><br>"
-#define VIEW_FR "<h2>%s 상세정보</h2><p><li>이름: %s</li><li>나이: %d</li><li>주소: %s</li><li>성별: %s</li><li>연락처: %s</li></p></body></html>		"
+#define VIEW_FR "<h2>%s 상세정보</h2><p><li>이름: %s</li><li>나이: %d</li><li>주소: %s</li><li>성별: %s</li><li>연락처: %s</li></p></body></html>       "
 #define NOT_FOUND_CONTENT "<h1>404 Not Found</h1>\n"
 #define SERVER_ERROR_CONTENT "<h1>500 Internal Server Error</h1>\n"
 
 FRIEND_T fr;
 
-int bind sock(int sock, int port);
+int bind_sock(int sock, int port);
 void fill_header(char *header, int status, long len, char *type);
 char *find_mime(char *url);
 void handle_404(int asock);
@@ -34,12 +34,12 @@ void list_fr(int page)
 	char buf[BUFSIZE];
 	char *buf2;
 	
-	if((fd = open("friend2.dat", O_RDWR, 0644)) == -1) {
+	if((fd = open("New.dat", O_RDWR, 0644)) == -1) {
 		perror("open failed");
 		exit(1);
 	}
-	if((li = open("list.html", O_RDWR, 0644)) == -1) {
-		perror("open failed show.html);
+	if((li = open("list.html", O_RDWR | O_CREAT, 0644)) == -1) {
+		perror("open failed show.html");
 		exit(1);
 	}
 	
@@ -48,12 +48,12 @@ void list_fr(int page)
 	write(li, buf, strlen(buf));
 	
 	sprintf(buf, "<h2>친구목록 %d 페이지</h2><p>", page);
-	wrtie(li, buf, strlen(buf));
+	write(li, buf, strlen(buf));
 	
 	for(int i = 0; i < count; i++) {
 		if(read(fd, &fr, sizeof(fr)) <= 0) {
 			// 더 이상 읽을 친구 목록이 없는 경우 처리하는 코드
-			if((buf2 = (FRIEND_T *)malloc((count - i) * 64)) == NULL) exit(1);
+			if((buf2 = (struct FRIEND_T *)malloc((count - i) * 64)) == NULL) exit(1);
 			memset(buf2, ' ', (count - i) * 64);
 			write(li, buf2, strlen(buf2));
 			
@@ -219,10 +219,10 @@ void handle_404(int clntSock)
 void handle_500(int clntSock)
 {
 	char header[BUFSIZE];
-	fill_header(header, 500, sizeof(SERVER_FOUND_CONTENT), "text/html");
+	fill_header(header, 500, sizeof(SERVER_ERROR_CONTENT), "text/html");
 	
 	write(clntSock, header, strlen(header));
-	write(clntSock, SERVER_FOUND_CONTENT, sizeof(SERVER_FOUND_CONTENT));
+	write(clntSock, SERVER_ERROR_CONTENT, sizeof(SERVER_ERROR_CONTENT));
 }
 
 void http_handler(int clntSock)
@@ -266,7 +266,7 @@ void http_handler(int clntSock)
 		list_fr(num);
 	}
 	// fr?view = 숫자 요청 처이
-	if(strstr(local_url), "view")) {
+	if(strstr(local_url, "view")) {
 		tmp = strtok(local_url, "=");
 		tmp = strtok(NULL, " "); // 몇 번째 page 요청인지 구함
 		num = atoi(tmp);

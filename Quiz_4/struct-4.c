@@ -73,6 +73,7 @@ void print_list(int fd, int page, FRIEND_T fr) {
 			bzero(&fr, sizeof(fr));
 		}
 		printf("[%3d]\t%s\t%2d\t%s\t%s\t%s\n", i, fr.name, fr.age, fr.phone, fr.email, fr.address);
+		//printf("anpeA
 	}
 }
 
