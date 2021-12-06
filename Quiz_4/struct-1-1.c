@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-#include "friend.h"
+#include "friend.h" // 외부 헤더에서 정의
 
 /*
 typedef struct profile {
@@ -41,7 +41,7 @@ int main(int argc, char **argv) { // 파일명을 argv[1]로 받음
 		bzero(&fr, sizeof(fr));
 		idx = i + 1;
 		
-		fr.age = i + 10;
+		fr.age = i + 20;
 		printf("Friend_%d's age : %d\n", idx, fr.age);
 		
 		if((write(fd, &fr, sizeof(fr))) == -1) {

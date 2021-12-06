@@ -6,9 +6,9 @@
 #include <unistd.h>
 #include "friend.h"
 
-#define DATA "New.dat"
+// #define DATA "New.dat"
 
-void print_fr(char *str);
+void print_fr(char *str, char *fname);
 
 int main(int argc, char *argv[]) {
 	FRIEND_T fr;
@@ -19,13 +19,13 @@ int main(int argc, char *argv[]) {
 		printf("조건을 입력하세요\n");
 		exit(1);
 	}
-	print_fr("BEFORE");
+	print_fr("BEFORE", argv[1]);
 // change
-	if((fd = open(DATA, O_RDWR)) == -1) { // 파일을 읽고쓰기 모드로 열기
+	if((fd = open(argv[1], O_RDWR)) == -1) { // 파일을 읽고쓰기 모드로 열기
 		perror("open failed\n");
 		exit(1);
 	}	
-	for (int i=0; i < argc; i++) {
+	for (int i=1; i < argc; i++) {
 		printf("==============================\n");
 		printf("< command : %s >\n", argv[i+1]);
 		buf = strtok(argv[i+1], "=");
@@ -52,16 +52,16 @@ int main(int argc, char *argv[]) {
 		write(fd, &fr, sizeof(fr));
 	}
 	close(fd);
-	print_fr("AFTER");	
+	print_fr("AFTER", argv[1]);	
 }	
 
-void print_fr(char *str) {
+void print_fr(char *str, char *fname) {
 	int fd, i = 0;
 	FRIEND_T fr;
 	
 	printf("\n>>>>>>> %s <<<<<<<\n", str);
 	
-	if((fd = open(DATA, O_RDONLY)) == -1) {
+	if((fd = open(fname, O_RDONLY)) == -1) {
 		perror("open failed\n");
 		exit(1);
 	}
